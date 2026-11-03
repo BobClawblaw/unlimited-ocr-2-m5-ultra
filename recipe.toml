@@ -1,0 +1,33 @@
+# The recipe's defaults. `local.toml` next to this file overrides them for one Mac (copy local.example.toml); an
+# environment variable of the same name in upper case overrides both (PORT=8896 python3 -m mac up).
+
+[model]
+# Baidu's release as published (bf16, 6.3 GiB; nothing is converted):
+# hf download baidu/Unlimited-OCR-2 --revision <model_revision> --local-dir <model_dir>
+model_repo = "baidu/Unlimited-OCR-2"
+model_revision = "0480966938291445591f69f08a13b041c073a96a"
+served_name = "Unlimited-OCR-2"
+model_dir = "~/models/Unlimited-OCR-2"
+
+[engine]
+# TensorFold's native Metal engine with the unlimited-ocr family: a worktree of tensorfold_src at tensorfold_sha,
+# built by `python3 -m mac build` under tf_cache; `binary` names a built tensorfold-native instead
+tensorfold_src = "~/github/TensorFold"   # a clone holding tensorfold_sha
+tensorfold_sha = "c94b385e80a421521f73ff8840782ccaf93d8afe"   # branch unlimited-ocr (engine.py fetches it)
+zig = "zig"                              # Zig 0.17.0
+zig_cpu = "native"
+binary = ""
+
+[local]
+host = "127.0.0.1"
+port = 8896
+tf_cache = "~/.cache/unlimited-ocr-2"
+
+[serve]
+context = 131072          # the publisher's max_length: every page's image tokens, the instruction and the reply
+max_tokens = 131072       # a reply's default ceiling (the page guard ends it after the last page)
+max_pages = 64            # pages (images) a request may hold
+page_tokens = 0           # image tokens a request may hold (0: every page may take gundam's widest grid)
+keep_warm = 86400
+api_key = ""
+extra_args = ""

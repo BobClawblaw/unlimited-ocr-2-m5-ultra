@@ -1,0 +1,228 @@
+{
+ "ok": true,
+ "summary": "6/6 cases answered; decode 214-249 tok/s, first token 0.84-4.08 s; 2 at once 102-217 tok/s in all; vs reference: identical 2/6, similarity 0.9973-1.0000, text without boxes identical 6/6, box coords moved 10/288 (at most 10)",
+ "metrics": {
+  "cases": {
+   "report-1": {
+    "ttft": 1.116,
+    "s": 1.912,
+    "decode_tps": 247.5,
+    "usage": {
+     "prompt_tokens": 909,
+     "completion_tokens": 198,
+     "total_tokens": 1107,
+     "prompt_tokens_details": {
+      "cached_tokens": 0
+     },
+     "completion_tokens_details": {
+      "reasoning_tokens": 0
+     }
+    },
+    "page_marks": 1,
+    "reference_identical": true,
+    "reference_similarity": 1.0,
+    "reference_boxes": {
+     "text_identical": true,
+     "boxes": [
+      4,
+      4
+     ],
+     "coords_moved": 0,
+     "coords": 16,
+     "coord_max_move": 0
+    },
+    "repeat_identical": true,
+    "streams": {
+     "n": 2,
+     "identical": 2,
+     "seconds": 3.23,
+     "tokens_per_s": 122.6
+    }
+   },
+   "report-2": {
+    "ttft": 0.842,
+    "s": 1.405,
+    "decode_tps": 248.7,
+    "usage": {
+     "prompt_tokens": 909,
+     "completion_tokens": 141,
+     "total_tokens": 1050,
+     "prompt_tokens_details": {
+      "cached_tokens": 0
+     },
+     "completion_tokens_details": {
+      "reasoning_tokens": 0
+     }
+    },
+    "page_marks": 1,
+    "reference_identical": true,
+    "reference_similarity": 1.0,
+    "reference_boxes": {
+     "text_identical": true,
+     "boxes": [
+      4,
+      4
+     ],
+     "coords_moved": 0,
+     "coords": 16,
+     "coord_max_move": 0
+    },
+    "repeat_identical": true,
+    "streams": {
+     "n": 2,
+     "identical": 2,
+     "seconds": 2.76,
+     "tokens_per_s": 102.1
+    }
+   },
+   "paper-1": {
+    "ttft": 0.853,
+    "s": 3.084,
+    "decode_tps": 242.9,
+    "usage": {
+     "prompt_tokens": 909,
+     "completion_tokens": 543,
+     "total_tokens": 1452,
+     "prompt_tokens_details": {
+      "cached_tokens": 0
+     },
+     "completion_tokens_details": {
+      "reasoning_tokens": 0
+     }
+    },
+    "page_marks": 1,
+    "reference_identical": false,
+    "reference_similarity": 0.9973,
+    "reference_boxes": {
+     "text_identical": true,
+     "boxes": [
+      11,
+      11
+     ],
+     "coords_moved": 5,
+     "coords": 44,
+     "coord_max_move": 10
+    },
+    "repeat_identical": true,
+    "streams": {
+     "n": 2,
+     "identical": 2,
+     "seconds": 6.11,
+     "tokens_per_s": 177.8
+    }
+   },
+   "paper-3": {
+    "ttft": 0.851,
+    "s": 4.558,
+    "decode_tps": 242.2,
+    "usage": {
+     "prompt_tokens": 909,
+     "completion_tokens": 899,
+     "total_tokens": 1808,
+     "prompt_tokens_details": {
+      "cached_tokens": 0
+     },
+     "completion_tokens_details": {
+      "reasoning_tokens": 0
+     }
+    },
+    "page_marks": 1,
+    "reference_identical": false,
+    "reference_similarity": 0.9998,
+    "reference_boxes": {
+     "text_identical": true,
+     "boxes": [
+      11,
+      11
+     ],
+     "coords_moved": 1,
+     "coords": 44,
+     "coord_max_move": 1
+    },
+    "repeat_identical": true,
+    "streams": {
+     "n": 2,
+     "identical": 2,
+     "seconds": 9.05,
+     "tokens_per_s": 198.7
+    }
+   },
+   "paper-10": {
+    "ttft": 0.853,
+    "s": 9.027,
+    "decode_tps": 239.5,
+    "usage": {
+     "prompt_tokens": 909,
+     "completion_tokens": 1959,
+     "total_tokens": 2868,
+     "prompt_tokens_details": {
+      "cached_tokens": 0
+     },
+     "completion_tokens_details": {
+      "reasoning_tokens": 0
+     }
+    },
+    "page_marks": 1,
+    "reference_identical": false,
+    "reference_similarity": 0.9997,
+    "reference_boxes": {
+     "text_identical": true,
+     "boxes": [
+      7,
+      7
+     ],
+     "coords_moved": 2,
+     "coords": 28,
+     "coord_max_move": 1
+    },
+    "repeat_identical": true,
+    "streams": {
+     "n": 2,
+     "identical": 2,
+     "seconds": 18.03,
+     "tokens_per_s": 217.3
+    }
+   },
+   "document": {
+    "ttft": 4.084,
+    "s": 21.712,
+    "decode_tps": 213.5,
+    "usage": {
+     "prompt_tokens": 4525,
+     "completion_tokens": 3764,
+     "total_tokens": 8289,
+     "prompt_tokens_details": {
+      "cached_tokens": 0
+     },
+     "completion_tokens_details": {
+      "reasoning_tokens": 0
+     }
+    },
+    "page_marks": 5,
+    "reference_identical": false,
+    "reference_similarity": 0.9999,
+    "reference_boxes": {
+     "text_identical": true,
+     "boxes": [
+      35,
+      35
+     ],
+     "coords_moved": 2,
+     "coords": 140,
+     "coord_max_move": 1
+    },
+    "repeat_identical": true,
+    "streams": {
+     "n": 2,
+     "identical": 2,
+     "seconds": 43.27,
+     "tokens_per_s": 174.0
+    }
+   }
+  },
+  "failures": []
+ },
+ "name": "ocr",
+ "type": "ocr",
+ "seconds": 166.2
+}
