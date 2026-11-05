@@ -28,17 +28,18 @@ code too).
 ## Speed and agreement with the publisher's code
 
 Measured with the [recipe harness](https://github.com/BobClawblaw/recipe-harness)
-(`python3 -m harness run unlimited-ocr-2-m5 --plan ocr`) on engine commit `c94b385e8`, 2026-11-03.
-Another model was serving on the same GPU throughout, so these are shared-GPU numbers. Evidence: `evidence/2026-11-03-ocr/`.
+(`python3 -m harness run unlimited-ocr-2-m5 --plan ocr`) on the recipe's build of engine commit `0af3eb8c8`,
+2026-11-05. No other model was loaded, but other work was running on the Mac (load average about 10), so these are
+shared-machine numbers. Evidence: `evidence/2026-11-05-ocr/`.
 
 | case | pages | prompt tokens | reply tokens | first token | decode | text vs reference | boxes moved |
 |---|---:|---:|---:|---:|---:|---|---:|
-| report-1 | 1 | 909 | 198 | 1.12 s | 247.5 tok/s | identical | 0 / 16 coordinates |
-| report-2 | 1 | 909 | 141 | 0.84 s | 248.7 tok/s | identical | 0 / 16 |
-| paper-1 | 1 | 909 | 543 | 0.85 s | 242.9 tok/s | identical | 5 / 44 (at most 10) |
-| paper-3 | 1 | 909 | 899 | 0.85 s | 242.2 tok/s | identical | 1 / 44 (1) |
-| paper-10 | 1 | 909 | 1,959 | 0.85 s | 239.5 tok/s | identical | 2 / 28 (1) |
-| document (all five) | 5 | 4,525 | 3,764 | 4.08 s | 213.5 tok/s | identical | 2 / 140 (1) |
+| report-1 | 1 | 909 | 198 | 1.06 s | 260.9 tok/s | identical | 0 / 16 coordinates |
+| report-2 | 1 | 909 | 141 | 0.80 s | 259.3 tok/s | identical | 0 / 16 |
+| paper-1 | 1 | 909 | 543 | 0.81 s | 261.8 tok/s | identical | 5 / 44 (at most 10) |
+| paper-3 | 1 | 909 | 899 | 0.80 s | 259.3 tok/s | identical | 1 / 44 (1) |
+| paper-10 | 1 | 909 | 1,959 | 0.79 s | 255.5 tok/s | identical | 2 / 28 (1) |
+| document (all five) | 5 | 4,525 | 3,764 | 3.90 s | 224.8 tok/s | identical | 2 / 140 (1) |
 
 - **The pages:** two synthetic report pages and three pages of the paper that ships in the release (title page, prose, tables), made by `ocr/pages.py`.
 - **The reference:** the publisher's own `infer` (the release's `modeling_unlimitedocr.py`) on the CPU in torch bf16, greedy, gundam mode, written by `ocr/refs.py`.
@@ -57,11 +58,13 @@ A smaller `context` shrinks the caches. `python3 -m mac up` checks that the memo
 
 ## The engine
 
-The `unlimited-ocr` family is not in TensorFold's main yet. It lives on the branch `unlimited-ocr` of
-github.com/BobClawblaw/TensorFold, commit `c94b385e8`:
+The `unlimited-ocr` family is not in TensorFold's main yet: it is pull request
+[ashhart/TensorFold#2074](https://github.com/ashhart/TensorFold/pull/2074). The recipe pins that PR's head `0af3eb8c8`
+(rebased on TensorFold main `a6e25faea`), kept as the tag `uocr-0af3eb8c8` on github.com/BobClawblaw/TensorFold:
 - the SAM and CLIP vision tower, the layout of global view and tiles, and the publisher's bicubic preprocessing;
 - the decoder's page2d rotary positions, DASH block-sparse attention (block keys, top-16 routing, entmax-1.5, a 128-token local window), and the MoE (64 experts, top 6, a shared expert);
 - chunked prefill that is bit-identical at any cut, and decode with experts picked on the GPU (one GPU wait a token);
+- the family's chat template built in, since the release ships none (`--chat-template` still overrides it);
 - its 34 kernel launches registered with the kernel contract:
   `SUMMARY 34 kernels: 34 pass gates 1-4, 0 fail, 0 known findings; 31 controls: 31 red as planted, 0 missed; 0 limit problems`.
 

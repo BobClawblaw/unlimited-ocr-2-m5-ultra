@@ -13,7 +13,7 @@ model_dir = "~/models/Unlimited-OCR-2"
 # TensorFold's native Metal engine with the unlimited-ocr family: a worktree of tensorfold_src at tensorfold_sha,
 # built by `python3 -m mac build` under tf_cache; `binary` names a built tensorfold-native instead
 tensorfold_src = "~/github/TensorFold"   # a clone holding tensorfold_sha
-tensorfold_sha = "c94b385e80a421521f73ff8840782ccaf93d8afe"   # branch unlimited-ocr (engine.py fetches it)
+tensorfold_sha = "0af3eb8c8b31d09cb88d528297f0468185b53bc2"   # tag uocr-0af3eb8c8 (engine.py fetches it)
 zig = "zig"                              # Zig 0.17.0
 zig_cpu = "native"
 binary = ""

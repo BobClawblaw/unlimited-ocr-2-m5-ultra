@@ -60,16 +60,6 @@ class Settings:
         return self.path(self.binary) if self.binary else self.built_binary
 
     @property
-    def engine_tree(self) -> Path:
-        """The engine checkout the binary was built from: the pinned worktree, or the one `binary` sits in."""
-        return self.run_binary.parents[3] if self.binary else self.worktree
-
-    @property
-    def chat_template(self) -> Path:
-        """The family's chat template (the release ships none): every image a page, then the instruction."""
-        return self.engine_tree / "zig" / "src" / "families" / "uocr" / "chat_template.jinja"
-
-    @property
     def pid_file(self) -> Path:
         return self.cache / "server.pid"
 
@@ -84,7 +74,7 @@ class Settings:
 
     def serve_args(self) -> list[str]:
         a = [str(self.run_binary), "serve", "--host", self.host, "--port", str(self.port), "--name", self.served_name,
-             "--chat-template", str(self.chat_template), "--vision", "--vision-max-images", str(self.max_pages),
+             "--vision", "--vision-max-images", str(self.max_pages),
              "--context", str(self.context), "--max-tokens", str(self.max_tokens), "--keep-warm", str(self.keep_warm),
              "--no-update-check"]
         if self.page_tokens > 0:
@@ -132,6 +122,4 @@ def validate(s: Settings) -> list[str]:
         out.append("max_pages must be at least 1")
     if not s.run_binary.exists():
         out.append(f"no engine binary at {s.run_binary}: python3 -m mac build")
-    elif not s.chat_template.exists():
-        out.append(f"no chat template at {s.chat_template}: the engine tree lacks the unlimited-ocr family")
     return out

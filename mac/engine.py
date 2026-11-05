@@ -6,9 +6,9 @@ from pathlib import Path
 
 from .config import Settings
 
-# where tensorfold_sha lives until the family reaches TensorFold's main
+# where tensorfold_sha lives until the family reaches TensorFold's main: a tag, since the PR branch is rebased
 TENSORFOLD_REPO = "https://github.com/BobClawblaw/TensorFold"
-TENSORFOLD_BRANCH = "unlimited-ocr"
+TENSORFOLD_REF = "refs/tags/uocr-0af3eb8c8"
 
 
 def _run(cmd: list[str], cwd: Path | None = None) -> None:
@@ -24,7 +24,7 @@ def build(s: Settings, rebuild: bool = False) -> Path:
     src = s.path(s.tensorfold_src)
     have = subprocess.run(["git", "-C", str(src), "cat-file", "-e", f"{s.tensorfold_sha}^{{commit}}"], capture_output=True)
     if have.returncode != 0:  # a clone older than the pin
-        _run(["git", "-C", str(src), "fetch", TENSORFOLD_REPO, TENSORFOLD_BRANCH])
+        _run(["git", "-C", str(src), "fetch", TENSORFOLD_REPO, TENSORFOLD_REF])
     if not s.worktree.exists():
         s.worktree.parent.mkdir(parents=True, exist_ok=True)
         _run(["git", "-C", str(src), "worktree", "add", "--detach", str(s.worktree), s.tensorfold_sha])
