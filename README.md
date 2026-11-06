@@ -59,8 +59,9 @@ A smaller `context` shrinks the caches. `python3 -m mac up` checks that the memo
 ## The engine
 
 The `unlimited-ocr` family is not in TensorFold's main yet: it is pull request
-[ashhart/TensorFold#2074](https://github.com/ashhart/TensorFold/pull/2074). The recipe pins that PR's head `f7c686f36`
-(on TensorFold main `b3933ecd3`), kept as the tag `uocr-f7c686f36` on github.com/BobClawblaw/TensorFold:
+[ashhart/TensorFold#2074](https://github.com/ashhart/TensorFold/pull/2074). The recipe pins its commit `f7c686f36`
+(on TensorFold main `b3933ecd3`; the PR's head since adds only a doc correction), kept as the tag `uocr-f7c686f36` on
+github.com/BobClawblaw/TensorFold:
 - the SAM and CLIP vision tower, the layout of global view and tiles, and the publisher's bicubic preprocessing;
 - the decoder's page2d rotary positions, DASH block-sparse attention (block keys, top-16 routing, entmax-1.5, a 128-token local window), and the MoE (64 experts, top 6, a shared expert);
 - chunked prefill that is bit-identical at any cut, and decode with experts picked on the GPU (one GPU wait a token);
