@@ -1,12 +1,12 @@
 {
  "ok": true,
- "summary": "6/6 cases answered; decode 225-262 tok/s, first token 0.79-3.90 s; 2 at once 108-232 tok/s in all; vs reference: identical 2/6, similarity 0.9973-1.0000, text without boxes identical 6/6, box coords moved 10/288 (at most 10)",
+ "summary": "6/6 cases answered; decode 303-308 tok/s, first token 0.27-1.45 s; 2 at once 200-296 tok/s in all; vs reference: identical 1/6, similarity 0.9844-1.0000, text without boxes identical 3/6, box coords moved 102/284 (at most 824)",
  "metrics": {
   "cases": {
    "report-1": {
-    "ttft": 1.06,
-    "s": 1.815,
-    "decode_tps": 260.9,
+    "ttft": 0.535,
+    "s": 1.185,
+    "decode_tps": 303.1,
     "usage": {
      "prompt_tokens": 909,
      "completion_tokens": 198,
@@ -19,30 +19,30 @@
      }
     },
     "page_marks": 1,
-    "reference_identical": true,
-    "reference_similarity": 1.0,
+    "reference_identical": false,
+    "reference_similarity": 0.9971,
     "reference_boxes": {
      "text_identical": true,
      "boxes": [
       4,
       4
      ],
-     "coords_moved": 0,
+     "coords_moved": 2,
      "coords": 16,
-     "coord_max_move": 0
+     "coord_max_move": 2
     },
     "repeat_identical": true,
     "streams": {
      "n": 2,
      "identical": 2,
-     "seconds": 3.09,
-     "tokens_per_s": 128.2
+     "seconds": 1.79,
+     "tokens_per_s": 221.4
     }
    },
    "report-2": {
-    "ttft": 0.802,
-    "s": 1.342,
-    "decode_tps": 259.3,
+    "ttft": 0.271,
+    "s": 0.727,
+    "decode_tps": 307.0,
     "usage": {
      "prompt_tokens": 909,
      "completion_tokens": 141,
@@ -71,14 +71,14 @@
     "streams": {
      "n": 2,
      "identical": 2,
-     "seconds": 2.6,
-     "tokens_per_s": 108.5
+     "seconds": 1.41,
+     "tokens_per_s": 200.1
     }
    },
    "paper-1": {
-    "ttft": 0.807,
-    "s": 2.877,
-    "decode_tps": 261.8,
+    "ttft": 0.28,
+    "s": 2.044,
+    "decode_tps": 307.3,
     "usage": {
      "prompt_tokens": 909,
      "completion_tokens": 543,
@@ -92,43 +92,7 @@
     },
     "page_marks": 1,
     "reference_identical": false,
-    "reference_similarity": 0.9973,
-    "reference_boxes": {
-     "text_identical": true,
-     "boxes": [
-      11,
-      11
-     ],
-     "coords_moved": 5,
-     "coords": 44,
-     "coord_max_move": 10
-    },
-    "repeat_identical": true,
-    "streams": {
-     "n": 2,
-     "identical": 2,
-     "seconds": 5.72,
-     "tokens_per_s": 189.8
-    }
-   },
-   "paper-3": {
-    "ttft": 0.799,
-    "s": 4.262,
-    "decode_tps": 259.3,
-    "usage": {
-     "prompt_tokens": 909,
-     "completion_tokens": 899,
-     "total_tokens": 1808,
-     "prompt_tokens_details": {
-      "cached_tokens": 0
-     },
-     "completion_tokens_details": {
-      "reasoning_tokens": 0
-     }
-    },
-    "page_marks": 1,
-    "reference_identical": false,
-    "reference_similarity": 0.9998,
+    "reference_similarity": 0.9996,
     "reference_boxes": {
      "text_identical": true,
      "boxes": [
@@ -143,18 +107,18 @@
     "streams": {
      "n": 2,
      "identical": 2,
-     "seconds": 8.45,
-     "tokens_per_s": 212.7
+     "seconds": 4.08,
+     "tokens_per_s": 266.3
     }
    },
-   "paper-10": {
-    "ttft": 0.794,
-    "s": 8.458,
-    "decode_tps": 255.5,
+   "paper-3": {
+    "ttft": 0.276,
+    "s": 3.239,
+    "decode_tps": 307.1,
     "usage": {
      "prompt_tokens": 909,
-     "completion_tokens": 1959,
-     "total_tokens": 2868,
+     "completion_tokens": 911,
+     "total_tokens": 1820,
      "prompt_tokens_details": {
       "cached_tokens": 0
      },
@@ -164,33 +128,69 @@
     },
     "page_marks": 1,
     "reference_identical": false,
-    "reference_similarity": 0.9997,
+    "reference_similarity": 0.9977,
     "reference_boxes": {
-     "text_identical": true,
+     "text_identical": false,
      "boxes": [
-      7,
-      7
+      11,
+      11
      ],
-     "coords_moved": 2,
-     "coords": 28,
+     "coords_moved": 1,
+     "coords": 44,
      "coord_max_move": 1
     },
     "repeat_identical": true,
     "streams": {
      "n": 2,
      "identical": 2,
-     "seconds": 16.86,
-     "tokens_per_s": 232.4
+     "seconds": 6.41,
+     "tokens_per_s": 284.2
+    }
+   },
+   "paper-10": {
+    "ttft": 0.277,
+    "s": 6.777,
+    "decode_tps": 308.2,
+    "usage": {
+     "prompt_tokens": 909,
+     "completion_tokens": 2004,
+     "total_tokens": 2913,
+     "prompt_tokens_details": {
+      "cached_tokens": 0
+     },
+     "completion_tokens_details": {
+      "reasoning_tokens": 0
+     }
+    },
+    "page_marks": 1,
+    "reference_identical": false,
+    "reference_similarity": 0.9873,
+    "reference_boxes": {
+     "text_identical": false,
+     "boxes": [
+      7,
+      7
+     ],
+     "coords_moved": 0,
+     "coords": 28,
+     "coord_max_move": 0
+    },
+    "repeat_identical": true,
+    "streams": {
+     "n": 2,
+     "identical": 2,
+     "seconds": 13.55,
+     "tokens_per_s": 295.7
     }
    },
    "document": {
-    "ttft": 3.904,
-    "s": 20.642,
-    "decode_tps": 224.8,
+    "ttft": 1.452,
+    "s": 13.69,
+    "decode_tps": 307.7,
     "usage": {
      "prompt_tokens": 4525,
-     "completion_tokens": 3764,
-     "total_tokens": 8289,
+     "completion_tokens": 3767,
+     "total_tokens": 8292,
      "prompt_tokens_details": {
       "cached_tokens": 0
      },
@@ -200,23 +200,23 @@
     },
     "page_marks": 5,
     "reference_identical": false,
-    "reference_similarity": 0.9999,
+    "reference_similarity": 0.9844,
     "reference_boxes": {
-     "text_identical": true,
+     "text_identical": false,
      "boxes": [
       35,
-      35
+      34
      ],
-     "coords_moved": 2,
-     "coords": 140,
-     "coord_max_move": 1
+     "coords_moved": 98,
+     "coords": 136,
+     "coord_max_move": 824
     },
     "repeat_identical": true,
     "streams": {
      "n": 2,
      "identical": 2,
-     "seconds": 41.38,
-     "tokens_per_s": 181.9
+     "seconds": 27.18,
+     "tokens_per_s": 277.2
     }
    }
   },
@@ -224,5 +224,5 @@
  },
  "name": "ocr",
  "type": "ocr",
- "seconds": 157.3
+ "seconds": 110.8
 }

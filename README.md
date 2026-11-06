@@ -28,22 +28,22 @@ code too).
 ## Speed and agreement with the publisher's code
 
 Measured with the [recipe harness](https://github.com/BobClawblaw/recipe-harness)
-(`python3 -m harness run unlimited-ocr-2-m5 --plan ocr`) on the recipe's build of engine commit `0af3eb8c8`,
-2026-11-05. No other model was loaded, but other work was running on the Mac (load average about 10), so these are
-shared-machine numbers. Evidence: `evidence/2026-11-05-ocr/`.
+(`python3 -m harness run unlimited-ocr-2-m5 --plan ocr`) on the recipe's build of engine commit `f7c686f36`,
+2026-11-06. Two other models' servers were loaded on the GPU but idle (load average about 3). Evidence:
+`evidence/2026-11-06-ocr/`.
 
 | case | pages | prompt tokens | reply tokens | first token | decode | text vs reference | boxes moved |
 |---|---:|---:|---:|---:|---:|---|---:|
-| report-1 | 1 | 909 | 198 | 1.06 s | 260.9 tok/s | identical | 0 / 16 coordinates |
-| report-2 | 1 | 909 | 141 | 0.80 s | 259.3 tok/s | identical | 0 / 16 |
-| paper-1 | 1 | 909 | 543 | 0.81 s | 261.8 tok/s | identical | 5 / 44 (at most 10) |
-| paper-3 | 1 | 909 | 899 | 0.80 s | 259.3 tok/s | identical | 1 / 44 (1) |
-| paper-10 | 1 | 909 | 1,959 | 0.79 s | 255.5 tok/s | identical | 2 / 28 (1) |
-| document (all five) | 5 | 4,525 | 3,764 | 3.90 s | 224.8 tok/s | identical | 2 / 140 (1) |
+| report-1 | 1 | 909 | 198 | 0.54 s | 303.1 tok/s | identical | 2 / 16 coordinates (at most 2) |
+| report-2 | 1 | 909 | 141 | 0.27 s | 307.0 tok/s | identical | 0 / 16 |
+| paper-1 | 1 | 909 | 543 | 0.28 s | 307.3 tok/s | identical | 1 / 44 (1) |
+| paper-3 | 1 | 909 | 911 | 0.28 s | 307.1 tok/s | citations written as `$ [5, 6, ...] $` | 1 / 44 (1) |
+| paper-10 | 1 | 909 | 2,004 | 0.28 s | 308.2 tok/s | table headers written in LaTeX | 0 / 28 |
+| document (all five) | 5 | 4,525 | 3,767 | 1.45 s | 307.7 tok/s | differs; 34 boxes against 35 | 98 / 136 (at most 824) |
 
 - **The pages:** two synthetic report pages and three pages of the paper that ships in the release (title page, prose, tables), made by `ocr/pages.py`.
 - **The reference:** the publisher's own `infer` (the release's `modeling_unlimitedocr.py`) on the CPU in torch bf16, greedy, gundam mode, written by `ocr/refs.py`.
-- **Agreement:** the transcribed text matches the reference exactly in all six cases. Some layout-box coordinates (0-999 page grid) differ: 10 of 288, mostly by 1, at most 10 on one header box. They come from bf16 sums taken in another order (CPU torch vs Metal).
+- **Agreement:** the transcribed text matches the reference in three of the six cases; 102 of 284 layout-box coordinates (0-999 page grid) moved, most of them in the document after one box goes missing. Each departure starts where two candidate tokens tie within one bf16 step: fed the reference's own reply, the engine picks otherwise at 2 of paper-3's 898 steps (step 145 with equal bf16 logits, step 557 by 0.25) and at 1 of paper-10's 1,958 (step 67, equal logits). The reference is fragile there for torch too: its own float32 run departs from its bf16 run at token 13 on paper-3 and at 1,660 on paper-10. The previous pin (`0af3eb8c8`) matched the text in all six cases (10 of 288 coordinates moved); it met ties of the same size but landed on torch's side of them. The current engine rewrote its SAM encoder and the decoder's attention, rotary and MoE gate from the papers and measured behaviour, as TensorFold requires.
 - **Every case also checks:** the reply carries one `<PAGE>` marker per page, the same request repeated gives the same reply, and two requests at once both give it too.
 - **Quality suite:** none was run; the harness's chat quality suites do not apply to an OCR model, and its own benchmarks (MPDocBench, MarathonDocBench, OmniDocBench) were not run.
 
@@ -59,14 +59,15 @@ A smaller `context` shrinks the caches. `python3 -m mac up` checks that the memo
 ## The engine
 
 The `unlimited-ocr` family is not in TensorFold's main yet: it is pull request
-[ashhart/TensorFold#2074](https://github.com/ashhart/TensorFold/pull/2074). The recipe pins that PR's head `0af3eb8c8`
-(rebased on TensorFold main `a6e25faea`), kept as the tag `uocr-0af3eb8c8` on github.com/BobClawblaw/TensorFold:
+[ashhart/TensorFold#2074](https://github.com/ashhart/TensorFold/pull/2074). The recipe pins that PR's head `f7c686f36`
+(on TensorFold main `b3933ecd3`), kept as the tag `uocr-f7c686f36` on github.com/BobClawblaw/TensorFold:
 - the SAM and CLIP vision tower, the layout of global view and tiles, and the publisher's bicubic preprocessing;
 - the decoder's page2d rotary positions, DASH block-sparse attention (block keys, top-16 routing, entmax-1.5, a 128-token local window), and the MoE (64 experts, top 6, a shared expert);
 - chunked prefill that is bit-identical at any cut, and decode with experts picked on the GPU (one GPU wait a token);
 - the family's chat template built in, since the release ships none (`--chat-template` still overrides it);
-- its 34 kernel launches registered with the kernel contract:
-  `SUMMARY 34 kernels: 34 pass gates 1-4, 0 fail, 0 known findings; 31 controls: 31 red as planted, 0 missed; 0 limit problems`.
+- its 30 kernels registered with the kernel contract:
+  `SUMMARY 30 kernels: 30 pass gates 1-4, 0 fail, 0 known findings; 30 controls: 30 red as planted, 0 missed; 0 limit problems`;
+- each image-encoder step gated alone against float32 (`tf-uocr-blocks`).
 
 ## Use
 

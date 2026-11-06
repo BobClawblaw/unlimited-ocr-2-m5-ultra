@@ -8,7 +8,7 @@ from .config import Settings
 
 # where tensorfold_sha lives until the family reaches TensorFold's main: a tag, since the PR branch is rebased
 TENSORFOLD_REPO = "https://github.com/BobClawblaw/TensorFold"
-TENSORFOLD_REF = "refs/tags/uocr-0af3eb8c8"
+TENSORFOLD_REF = "refs/tags/uocr-f7c686f36"
 
 
 def _run(cmd: list[str], cwd: Path | None = None) -> None:
